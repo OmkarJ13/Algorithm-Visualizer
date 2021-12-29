@@ -4,8 +4,6 @@ import "./variables.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Footer from "./components/Footer/Footer";
-import Pathheader from "./components/Header/PathHeader";
-import Header from "./components/Header/Header";
 import { useState, useEffect } from "react";
 
 import "./variables.css";
