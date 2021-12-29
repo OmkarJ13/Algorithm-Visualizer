@@ -63,7 +63,10 @@ class SortingVisualizer extends Component {
       clearTimeout(i);
     }
 
-    this.resetArray();
+    const arrayBars = document.getElementsByClassName("array-bar");
+    for (let i = 0; i < arrayBars.length; i++) {
+      arrayBars[i].style.backgroundColor = colorPrimary;
+    }
 
     this.setState({
       isSorting: false,
@@ -71,7 +74,7 @@ class SortingVisualizer extends Component {
   }
 
   onSortHandler() {
-    const { array } = this.state;
+    const array = this.state.array.slice();
     let animations = [];
 
     this.setState({
@@ -100,6 +103,7 @@ class SortingVisualizer extends Component {
 
   sortingAnimationsHandler(animations) {
     const arrayBars = document.getElementsByClassName("array-bar");
+    const array = this.state.array.slice();
 
     for (let i = 0; i < animations.length; i++) {
       const animation = animations[i];
@@ -131,6 +135,12 @@ class SortingVisualizer extends Component {
 
           barOneStyle.height = `${barOneNewHeight}px`;
           barTwoStyle.height = `${barTwoNewHeight}px`;
+
+          array[barOneId] = barOneNewHeight;
+          array[barTwoId] = barTwoNewHeight;
+          this.setState({
+            array,
+          });
         }, i * constants.ANIMATION_SPEED);
       } else if (type === "sort") {
         setTimeout(() => {
@@ -139,6 +149,10 @@ class SortingVisualizer extends Component {
           } = animation;
           const barStyle = arrayBars[barId].style;
           barStyle.height = `${newBarHeight}px`;
+          array[barId] = newBarHeight;
+          this.setState({
+            array,
+          });
         }, i * constants.ANIMATION_SPEED);
       } else if (type === "done") {
         setTimeout(() => {
@@ -155,7 +169,7 @@ class SortingVisualizer extends Component {
   }
 
   render() {
-    console.log(this.props.sortMethod);
+    console.log("Updating");
 
     const { array } = this.state;
     return (

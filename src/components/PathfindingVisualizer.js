@@ -25,6 +25,8 @@ class PathfindingVisualizer extends Component {
       grid: [],
       mouseIsPressed: false,
     };
+
+    this.resetGrid = this.resetGrid.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +42,7 @@ class PathfindingVisualizer extends Component {
     for (let i = 0; i < nodes.length; i++) {
       nodes[i].className = "node";
     }
+
     this.setState({ grid });
   }
 
