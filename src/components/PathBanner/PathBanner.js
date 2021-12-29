@@ -16,12 +16,12 @@ const Pathbanner = () => {
         <p className="banner-name">Destination Node</p>
       </div>
       <div className="banner-item">
-        <div className="banner-icon path" />
-        <p className="banner-name">Start Node</p>
-      </div>
-      <div className="banner-item">
         <div className="banner-icon obstacle" />
         <p className="banner-name">Obstacle</p>
+      </div>
+      <div className="banner-item">
+        <div className="banner-icon path" />
+        <p className="banner-name">Route</p>
       </div>
     </div>
   );

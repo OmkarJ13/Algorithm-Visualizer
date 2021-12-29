@@ -18,9 +18,8 @@
 
 .obstacle {
   background-color: var(--color-primary);
-  border: 1px solid var(--color-primary);
 }
 
 .path {
-  border: 1px solid var(--color-secondary);
+  background-color: rgb(255, 254, 106);
 }
