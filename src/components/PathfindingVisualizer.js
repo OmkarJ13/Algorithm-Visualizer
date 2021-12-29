@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import * as dijkstra from "../algorithms/pathfinding/dijkstra";
 import * as astar from "../algorithms/pathfinding/astar";
 
+import Header from "../components/Header/Header";
+import PathHeader from "../components/Header/PathHeader";
+
 import "./PathfindingVisualizer.css";
 import Info from "../info";
 
@@ -180,62 +183,67 @@ class PathfindingVisualizer extends Component {
     const { grid, mouseIsPressed } = this.state;
 
     return (
-      <div className="PathfindingVisualizer">
-        {this.props.children}
-        {this.state.isFinding ? (
-          <Button
-            style={buttonStyles}
-            className="float"
-            variant="contained"
-            color="secondary"
-            onClick={this.stopFinding.bind(this)}
-          >
-            Stop
-          </Button>
-        ) : (
-          <Button
-            style={buttonStyles}
-            className="float"
-            variant="contained"
-            color="secondary"
-            onClick={this.onVisualiseHandler}
-          >
-            Visualise
-          </Button>
-        )}
-        <div className="grid-wrapper">
-          <Info onClick={() => this.props.showModel(true)} />
-          <div className="grid">
-            {grid.map((row, rowIdx) => {
-              return (
-                <div key={rowIdx} className="grid-row">
-                  {row.map((node, nodeIdx) => {
-                    const { row, col, isFinish, isStart, isWall } = node;
-                    return (
-                      <Node
-                        key={nodeIdx}
-                        col={col}
-                        isFinish={isFinish}
-                        isStart={isStart}
-                        isWall={isWall}
-                        mouseIsPressed={mouseIsPressed}
-                        onMouseDown={(row, col) =>
-                          this.handleMouseDown(row, col)
-                        }
-                        onMouseEnter={(row, col) =>
-                          this.handleMouseEnter(row, col)
-                        }
-                        onMouseUp={() => this.handleMouseUp()}
-                        row={row}
-                      ></Node>
-                    );
-                  })}
-                </div>
-              );
-            })}
+      <>
+        <Header>
+          <PathHeader reset={this.resetGrid} />
+        </Header>
+        <div className="PathfindingVisualizer">
+          {this.props.children}
+          {this.state.isFinding ? (
+            <Button
+              style={buttonStyles}
+              className="float"
+              variant="contained"
+              color="secondary"
+              onClick={this.stopFinding.bind(this)}
+            >
+              Stop
+            </Button>
+          ) : (
+            <Button
+              style={buttonStyles}
+              className="float"
+              variant="contained"
+              color="secondary"
+              onClick={this.onVisualiseHandler}
+            >
+              Visualise
+            </Button>
+          )}
+          <div className="grid-wrapper">
+            <Info onClick={() => this.props.showModel(true)} />
+            <div className="grid">
+              {grid.map((row, rowIdx) => {
+                return (
+                  <div key={rowIdx} className="grid-row">
+                    {row.map((node, nodeIdx) => {
+                      const { row, col, isFinish, isStart, isWall } = node;
+                      return (
+                        <Node
+                          key={nodeIdx}
+                          col={col}
+                          isFinish={isFinish}
+                          isStart={isStart}
+                          isWall={isWall}
+                          mouseIsPressed={mouseIsPressed}
+                          onMouseDown={(row, col) =>
+                            this.handleMouseDown(row, col)
+                          }
+                          onMouseEnter={(row, col) =>
+                            this.handleMouseEnter(row, col)
+                          }
+                          onMouseUp={() => this.handleMouseUp()}
+                          row={row}
+                        ></Node>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

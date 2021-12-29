@@ -56,14 +56,6 @@ const Sortheader = (props) => {
       >
         Generate new Array
       </Button>
-      {/* <select id="select-sorting-method" onChange={onSortChangeHandler}>
-        <option value="merge" selected>
-          Merge Sort
-        </option>
-        <option value="bubble">Bubble Sort</option>
-        <option value="insertion">Insertion Sort</option>
-        <option value="quick">Quick Sort</option>
-      </select> */}
       <Select
         className="selector"
         id="select-sorting-method"

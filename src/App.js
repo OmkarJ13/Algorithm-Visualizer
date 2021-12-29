@@ -45,9 +45,6 @@ function App() {
           </div>
         </Route>
         <Route path="/path-finding-algos">
-          <Header>
-            <Pathheader />
-          </Header>
           <PathfindingVisualizer showModel={(boolean) => setShowModel(boolean)}>
             <Model
               show={showModel}
