@@ -18,24 +18,79 @@ class PathfindingVisualizer extends Component {
   constructor() {
     super();
     this.state = {
+      isFinding: false,
       grid: [],
       mouseIsPressed: false,
     };
   }
 
   componentDidMount() {
-    const grid = getInitialGrid();
-    this.setState({ grid });
+    this.resetGrid();
     this.props.showModel(true);
   }
 
+  // Reset grid
+  resetGrid() {
+    const grid = getInitialGrid();
+
+    const nodes = document.getElementsByClassName("node");
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].className = "node";
+    }
+    this.setState({ grid });
+  }
+
+  // Use this function for stop button
+  stopFinding() {
+    const id = setTimeout(() => {}, 0);
+    for (let i = id; i >= 0; i--) {
+      clearTimeout(i);
+    }
+
+    const stateNodes = this.state.grid.flat();
+
+    const nodes = document.getElementsByClassName("node");
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].classList.remove("node-shortest-path");
+      nodes[i].classList.remove("node-visited");
+
+      stateNodes[i].distance = Infinity;
+      stateNodes[i].isVisited = false;
+      stateNodes[i].previousNode = null;
+    }
+
+    const grid = [];
+    for (let row = 0; row < 20; row++) {
+      grid.push(stateNodes.slice(row * 50, row * 50 + 50));
+    }
+
+    this.setState({
+      grid,
+      isFinding: false,
+    });
+  }
+
   handleMouseDown(row, col) {
+    if (
+      (row === START_NODE_ROW && col === START_NODE_COL) ||
+      (row === FINISH_NODE_ROW && col === FINISH_NODE_COL)
+    )
+      return;
+
+    if (this.state.isFinding) return;
     const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
     this.setState({ grid: newGrid, mouseIsPressed: true });
   }
 
   handleMouseEnter(row, col) {
     if (!this.state.mouseIsPressed) return;
+    if (
+      (row === START_NODE_ROW && col === START_NODE_COL) ||
+      (row === FINISH_NODE_ROW && col === FINISH_NODE_COL)
+    )
+      return;
+    if (this.state.isFinding) return;
+
     const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
     this.setState({ grid: newGrid });
   }
@@ -66,6 +121,12 @@ class PathfindingVisualizer extends Component {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest-path";
+
+        if (i === nodesInShortestPathOrder.length - 1) {
+          this.setState({
+            isFinding: false,
+          });
+        }
       }, 50 * i);
     }
   }
@@ -99,16 +160,21 @@ class PathfindingVisualizer extends Component {
   }
 
   onVisualiseHandler = () => {
+    this.setState({
+      isFinding: true,
+    });
+
     switch (this.props.method) {
-      case "djiktra":
+      case "dijkstra":
         this.visualizeDijkstra(this);
         break;
       case "a*":
+        this.visualizeAstar(this);
         break;
       default:
         break;
     }
-  }
+  };
 
   render() {
     const { grid, mouseIsPressed } = this.state;
@@ -116,15 +182,27 @@ class PathfindingVisualizer extends Component {
     return (
       <div className="PathfindingVisualizer">
         {this.props.children}
-        <Button
-          style={buttonStyles}
-          className="float"
-          variant="contained"
-          color="secondary"
-          onClick={this.onVisualiseHandler}
-        >
-          Visualise
-        </Button>
+        {this.state.isFinding ? (
+          <Button
+            style={buttonStyles}
+            className="float"
+            variant="contained"
+            color="secondary"
+            onClick={this.stopFinding.bind(this)}
+          >
+            Stop
+          </Button>
+        ) : (
+          <Button
+            style={buttonStyles}
+            className="float"
+            variant="contained"
+            color="secondary"
+            onClick={this.onVisualiseHandler}
+          >
+            Visualise
+          </Button>
+        )}
         <div className="grid-wrapper">
           <Info onClick={() => this.props.showModel(true)} />
           <div className="grid">

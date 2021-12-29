@@ -3,6 +3,14 @@ import { colorPrimary, colorSecondary } from "../../colors";
 export const getMergeSortAnimations = (array) => {
   const animations = [];
   mergeSort(array, 0, array.length - 1, animations);
+  for (let i = 0; i < array.length; i++) {
+    animations.push({
+      type: "done",
+      color: colorSecondary,
+      data: i,
+    });
+  }
+
   return animations;
 };
 

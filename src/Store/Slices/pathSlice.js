@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  method: "djiktra",
+  method: "dijkstra",
 };
 
 const pathSlice = createSlice({

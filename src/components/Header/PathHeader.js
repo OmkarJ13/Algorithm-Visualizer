@@ -34,7 +34,7 @@ const Pathheader = (props) => {
         className="selector"
         onChange={onVisualizeChange}
       >
-        <MenuItem value="djiktra">Djiktra</MenuItem>
+        <MenuItem value="dijkstra">Dijkstra</MenuItem>
         <MenuItem value="a*">A*</MenuItem>
       </Select>
       <Link className="flex" to="/">

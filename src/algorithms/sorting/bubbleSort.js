@@ -38,4 +38,12 @@ const bubbleSort = (array, animations) => {
       }
     }
   }
+
+  for (let i = 0; i < n; i++) {
+    animations.push({
+      type: "done",
+      color: colorSecondary,
+      data: i,
+    });
+  }
 };

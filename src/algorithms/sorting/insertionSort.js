@@ -1,3 +1,4 @@
+import { color } from "@mui/system";
 import { colorPrimary, colorSecondary } from "../../colors";
 
 export const getInsertionSortAnimations = (array) => {
@@ -38,5 +39,13 @@ const insertionSort = (array, animations) => {
         break;
       }
     }
+  }
+
+  for (let i = 0; i < n; i++) {
+    animations.push({
+      type: "done",
+      color: colorSecondary,
+      data: i,
+    });
   }
 };

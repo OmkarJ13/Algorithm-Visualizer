@@ -17,11 +17,13 @@ import sortIcon from "../Assets/sort.svg";
 
 import "./SortingVisualizer.css";
 import Info from "../info";
+import { colorPrimary } from "../colors";
 
 class SortingVisualizer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSorting: false,
       array: [],
     };
   }
@@ -42,6 +44,11 @@ class SortingVisualizer extends Component {
       );
     }
 
+    const arrayBars = document.getElementsByClassName("array-bar");
+    for (let i = 0; i < arrayBars.length; i++) {
+      arrayBars[i].style.backgroundColor = colorPrimary;
+    }
+
     this.setState({ array });
   }
 
@@ -51,16 +58,25 @@ class SortingVisualizer extends Component {
 
   // Use this function for stop button
   stopSorting() {
-    const id = setTimeout(() => {
-      for (let i = id; i >= 0; i--) {
-        clearTimeout(id);
-      }
-    }, 0);
+    const id = setTimeout(() => {}, 0);
+    for (let i = id; i >= 0; i--) {
+      clearTimeout(i);
+    }
+
+    this.resetArray();
+
+    this.setState({
+      isSorting: false,
+    });
   }
 
   onSortHandler() {
     const { array } = this.state;
     let animations = [];
+
+    this.setState({
+      isSorting: true,
+    });
 
     switch (this.props.sortMethod) {
       case "merge":
@@ -124,6 +140,16 @@ class SortingVisualizer extends Component {
           const barStyle = arrayBars[barId].style;
           barStyle.height = `${newBarHeight}px`;
         }, i * constants.ANIMATION_SPEED);
+      } else if (type === "done") {
+        setTimeout(() => {
+          const { data: barId } = animation;
+          const barStyle = arrayBars[barId].style;
+          barStyle.backgroundColor = animation.color;
+
+          if (i === animations.length - 1) {
+            this.setState({ isSorting: false });
+          }
+        }, i * constants.ANIMATION_SPEED);
       }
     }
   }
@@ -140,16 +166,29 @@ class SortingVisualizer extends Component {
         </Header>
         <div className="sorting-visualizer">
           <Info onClick={() => this.props.showModel(true)} />
-          <Button
-            style={buttonStyles}
-            className="float"
-            variant="contained"
-            color="secondary"
-            onClick={this.onSortHandler.bind(this)}
-          >
-            Sort
-            <img style={{ marginLeft: 10 }} src={sortIcon} alt="sort-logo" />
-          </Button>
+          {this.state.isSorting ? (
+            <Button
+              style={buttonStyles}
+              className="float"
+              variant="contained"
+              color="secondary"
+              onClick={this.stopSorting.bind(this)}
+            >
+              Stop
+              <img style={{ marginLeft: 10 }} src={sortIcon} alt="sort-logo" />
+            </Button>
+          ) : (
+            <Button
+              style={buttonStyles}
+              className="float"
+              variant="contained"
+              color="secondary"
+              onClick={this.onSortHandler.bind(this)}
+            >
+              Sort
+              <img style={{ marginLeft: 10 }} src={sortIcon} alt="sort-logo" />
+            </Button>
+          )}
           <ArrayBars data={array} />
         </div>
       </>
