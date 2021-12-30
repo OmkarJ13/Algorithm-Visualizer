@@ -45,6 +45,7 @@ const Sortheader = (props) => {
           max={100}
           color="secondary"
           onChange={onSizeChangeHandler}
+          disabled
         />
       </div>
       <Button
