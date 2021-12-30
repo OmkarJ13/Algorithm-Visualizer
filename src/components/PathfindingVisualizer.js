@@ -11,6 +11,9 @@ import PathHeader from "../components/Header/PathHeader";
 
 import "./PathfindingVisualizer.css";
 import Info from "../info";
+import Pathbanner from "./PathBanner/PathBanner";
+
+import search from "../Assets/search.svg";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 15;
@@ -201,6 +204,7 @@ class PathfindingVisualizer extends Component {
               onClick={this.stopFinding.bind(this)}
             >
               Stop
+              <div style={{ marginLeft: 10, width: 13, height: 13, borderRadius: 2, backgroundColor: "#fff" }} />
             </Button>
           ) : (
             <Button
@@ -210,7 +214,8 @@ class PathfindingVisualizer extends Component {
               color="secondary"
               onClick={this.onVisualiseHandler}
             >
-              Visualise
+              <p>Visualise</p>
+              <img style={{ marginLeft: 10, width: 20 }} src={search} alt="sort-logo" />
             </Button>
           )}
           <div className="grid-wrapper">
@@ -244,6 +249,7 @@ class PathfindingVisualizer extends Component {
                 );
               })}
             </div>
+            <Pathbanner />
           </div>
         </div>
       </>

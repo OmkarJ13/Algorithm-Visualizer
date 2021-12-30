@@ -189,7 +189,7 @@ class SortingVisualizer extends Component {
               onClick={this.stopSorting.bind(this)}
             >
               Stop
-              <img style={{ marginLeft: 10 }} src={sortIcon} alt="sort-logo" />
+              <div style={{ marginLeft: 10, width: 13, height: 13, borderRadius: 2, backgroundColor: "#fff" }} />
             </Button>
           ) : (
             <Button
